@@ -1,5 +1,6 @@
 package com.example.tbotalla.multisportstimer;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
-    private static final int SECONDS_TO_COUNTDOWN = 10;
+    private static final int SECONDS_TO_COUNTDOWN = 180;
     private static final int SECONDS_TO_BREAK = 60;
     private TextView countdownDisplay;
     private TextView infoDisplay;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         infoDisplay = (TextView) findViewById(R.id.LblInfoDisplayBox);
         Button startButton = (Button) findViewById(R.id.BtnStart);
         Button stopButton = (Button) findViewById(R.id.BtnStop);
+        Button setUpButton = (Button) findViewById(R.id.BtnSetup);
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
@@ -51,6 +53,23 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        setUpButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                try {
+                    showSetup(view);
+                } catch (NumberFormatException e) {
+                    // method ignores invalid (non-integer) input and waits
+                    // for something it can use
+                }
+            }
+        });
+
+    }
+
+    public void showSetup(View view) {
+        Intent i = new Intent(this, Ajustes.class );
+        startActivity(i);
     }
 
     @Override

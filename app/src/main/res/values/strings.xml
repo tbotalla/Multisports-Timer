@@ -9,6 +9,8 @@
     <string name="waiting">Waiting</string>
     <string name="work">WORK!</string>
     <string name="rest">REST!</string>
+    <string name="config">Set Up</string>
+
 
 
 </resources>

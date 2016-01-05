@@ -40,6 +40,13 @@
         android:layout_marginTop="41dp"
         android:layout_centerHorizontal="true"
         android:text="@string/stop" />
-
+    <Button
+        android:id="@+id/BtnSetup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BtnStop"
+        android:layout_marginTop="41dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/config" />
 
 </RelativeLayout>
