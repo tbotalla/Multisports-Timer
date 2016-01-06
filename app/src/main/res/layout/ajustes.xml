@@ -4,13 +4,55 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:id="@+id/LblInfoDisplayBox"
+        android:id="@+id/LblInfoRoundNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:text="@string/waiting"
-        android:layout_below="@+id/LblTimeDisplayBox"
+        android:layout_marginTop="20dp"
+        android:text="@string/roundNumber"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Spinner android:id="@+id/CmbRoundNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/LblInfoRoundAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/roundAmount"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Spinner android:id="@+id/CmbRoundAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/LblInfoRoundTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/roundTime"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Spinner android:id="@+id/CmbRoundTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/LblInfoRestTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/restTime"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+    <Spinner android:id="@+id/CmbRestTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

@@ -10,6 +10,10 @@
     <string name="work">WORK!</string>
     <string name="rest">REST!</string>
     <string name="config">Set Up</string>
+    <string name="roundNumber">Round number:</string>
+    <string name="roundAmount">Round amount:</string>
+    <string name="roundTime">Round time:</string>
+    <string name="restTime">Rest time:</string>
 
 
 
