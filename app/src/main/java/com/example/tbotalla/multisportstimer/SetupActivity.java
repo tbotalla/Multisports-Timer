@@ -1,8 +1,10 @@
 package com.example.tbotalla.multisportstimer;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,7 +14,7 @@ import android.widget.Toast;
 /**
  * Created by tbotalla on 05/01/16.
  */
-public class Setup extends Activity {
+public class SetupActivity extends AppCompatActivity {
 
     private Spinner cmbRoundNumber;
     private Spinner cmbRoundTime;
@@ -28,14 +30,30 @@ public class Setup extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ajustes);
+        setContentView(R.layout.activity_setup);
 
         this.setViewReferences();
         this.setAdapters();
         this.setSpinnersBehavior();
+        this.setListeners();
 
+        secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
+        secsToRest = getIntent().getExtras().getInt("secsToRest");
+        roundAmount = getIntent().getExtras().getInt("roundAmount");
 
+    }
 
+    private void setListeners() {
+        btnApplyChanges.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(SetupActivity.this, MainActivity.class);
+                i.putExtra("secsToCountdown", secsToCountdown);
+                i.putExtra("secsToRest", secsToRest);
+                i.putExtra("roundAmount", roundAmount);
+
+                startActivity(i);
+            }
+        });
 
     }
 
@@ -77,18 +95,20 @@ public class Setup extends Activity {
 
 
     private void setSpinnersBehavior(){
+
+        // Obtiene el valor seleccionado del spinner de numero de rounds
         cmbRoundNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
                                        int position, long id) {
                 roundAmount = Integer.parseInt((String) parent.getItemAtPosition(position));
 
                 // TODO --> PARA DEBUG SOLAMENTE
-                Context context = getApplicationContext();
-                String text = String.valueOf(roundAmount);
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+//                Context context = getApplicationContext();
+//                String text = String.valueOf(roundAmount);
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -97,18 +117,19 @@ public class Setup extends Activity {
         });
 
 
+        // Obtiene el valor seleccionado del spinner de round time
         cmbRoundTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
                                        int position, long id) {
                 secsToCountdown = parseSeconds((String) parent.getItemAtPosition(position));
 
                 // TODO --> PARA DEBUG SOLAMENTE
-                Context context = getApplicationContext();
-                String text = String.valueOf(secsToCountdown);
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+//                Context context = getApplicationContext();
+//                String text = String.valueOf(secsToCountdown);
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -117,18 +138,19 @@ public class Setup extends Activity {
         });
 
 
+        // Obtiene el valor seleccionado del spinner de rest time
         cmbRestTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
                                        int position, long id) {
                 secsToRest = parseSeconds((String) parent.getItemAtPosition(position));
 
                 // TODO --> PARA DEBUG SOLAMENTE
-                Context context = getApplicationContext();
-                String text = String.valueOf(secsToRest);
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+//                Context context = getApplicationContext();
+//                String text = String.valueOf(secsToRest);
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

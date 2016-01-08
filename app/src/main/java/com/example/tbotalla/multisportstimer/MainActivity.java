@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         this.secsToCountdown = DEFAULT_SECONDS_TO_COUNTDOWN;
         this.secsToRest = DEFAULT_SECONDS_TO_REST;
         this.roundAmount = DEFAULT_ROUND_AMOUNT;
-        this.actualRound = 0;
+        this.actualRound = 1;
     }
 
 
@@ -97,9 +97,40 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 cancelBothTimers();
                 resetRoundNumber();
+                getExtras();
+                showInfoToast();
                 startWorkCycle();
             }
         });
+    }
+
+    private void getExtras() {
+        if(getIntent().getExtras() != null){
+            this.secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
+            this.secsToRest = getIntent().getExtras().getInt("secsToRest");
+            this.roundAmount = getIntent().getExtras().getInt("roundAmount");
+        }
+    }
+
+    private void showInfoToast() {
+        // TODO --> PROVISORIO PARA DEBUG
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+
+        CharSequence text1 = "Round #: "+actualRound;
+
+        Toast toast1 = Toast.makeText(context, text1, duration);
+        toast1.show();
+
+        CharSequence text2 = "Round time: "+secsToCountdown;
+
+        Toast toast2 = Toast.makeText(context, text2, duration);
+        toast2.show();
+
+        CharSequence text = "Rest time: "+secsToRest;
+
+        Toast toast3 = Toast.makeText(context, text, duration);
+        toast3.show();
     }
 
 
@@ -140,9 +171,9 @@ public class MainActivity extends AppCompatActivity {
     public void startWorkCycle(){
         // El metodo es llamado cada vez que termina el timer de descanso, y ahi se chequea el
         // numero de rounds
-        if(actualRound < roundAmount){
+        if(actualRound <= roundAmount){
             showTimer((secsToCountdown * MILLIS_PER_SECOND));
-            this.actualRound++;
+
 
             // TODO --> PROVISORIO PARA DEBUG
             Context context = getApplicationContext();
@@ -152,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
             // TODO --> aca se deberia lanzar un sonido de comienzo
+            this.actualRound++;
         } else {
             infoDisplay.setText(R.string.waiting);
             resetRoundNumber(); // Reseteo el numero de round para poder comenzar otro ciclo
@@ -159,7 +191,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showSetup(View view) {
-        Intent i = new Intent(this, Setup.class );
+        Intent i = new Intent(this, SetupActivity.class);
+        i.putExtra("secsToCountdown", secsToCountdown);
+        i.putExtra("secsToRest", secsToRest);
+        i.putExtra("roundAmount", roundAmount);
+
         startActivity(i);
     }
 
@@ -219,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void resetRoundNumber(){
-        actualRound = 0;
+        actualRound = 1;
     }
 
 }

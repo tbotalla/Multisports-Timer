@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Setup"
+            android:name=".SetupActivity"
             android:label="@string/config" >
         </activity>
     </application>
