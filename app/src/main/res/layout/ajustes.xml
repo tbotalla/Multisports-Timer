@@ -17,19 +17,6 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/LblInfoRoundAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/roundAmount"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
-
-    <Spinner android:id="@+id/CmbRoundAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
         android:id="@+id/LblInfoRoundTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,5 +41,13 @@
     <Spinner android:id="@+id/CmbRestTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/BtnApplyChanges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:text="@string/applyChanges" />
 
 </LinearLayout>

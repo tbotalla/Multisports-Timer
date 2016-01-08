@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Datos usados para el adaptador del spinner que muestra las distintas opciones de tiempos -->
+<!-- Datos usados para el adaptador del spinner que muestra los tiempos de los rounds -->
 <resources>
-    <string-array name="times_array">
+    <string-array name="round_times_array">
         <item>00:30</item>
         <item>01:00</item>
         <item>01:30</item>
