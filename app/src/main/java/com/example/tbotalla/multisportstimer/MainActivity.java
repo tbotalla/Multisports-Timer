@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // Setea y configura el comportamiento al presionar el boton START
     public void setStartButtonListener(){
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // Setea y configura el comportamiento al presionar el boton STOP
     public void setStopButtonListener(){
         stopButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // Setea y configura el comportamiento al presionar el boton SETUP
     public void setSetUpButtonListener(){
         setUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
