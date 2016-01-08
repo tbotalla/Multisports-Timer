@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
     public void setListeners(){
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                cancelBothTimers();
+                resetRoundNumber();
                 startWorkCycle();
             }
         });
