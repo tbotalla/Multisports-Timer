@@ -17,7 +17,8 @@
     <string name="roundsSelected">Rounds Selected:</string>
     <string name="workTimeSelected">Work Time Selected:</string>
     <string name="restTimeSelected">Rest Time Selected:</string>
-    <string name="title_activity_setup2">Setup2</string>
+    <string name="back">Back</string>
+    <string name="seleccionado">Seleccionado: </string>
 
 
 

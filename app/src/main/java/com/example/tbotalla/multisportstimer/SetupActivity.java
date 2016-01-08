@@ -9,7 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by tbotalla on 05/01/16.
@@ -20,6 +23,9 @@ public class SetupActivity extends AppCompatActivity {
     private Spinner cmbRoundTime;
     private Spinner cmbRestTime;
     private Button  btnApplyChanges;
+    private TextView lblRoundNumberSelected;
+    private TextView lblRoundTimeSelected;
+    private TextView lblRestTimeSelected;
 
     private int secsToCountdown;
     private int secsToRest;
@@ -32,15 +38,18 @@ public class SetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
+        this.getExtras();
         this.setViewReferences();
         this.setAdapters();
         this.setSpinnersBehavior();
         this.setListeners();
 
+    }
+
+    private void getExtras() {
         secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
         secsToRest = getIntent().getExtras().getInt("secsToRest");
         roundAmount = getIntent().getExtras().getInt("roundAmount");
-
     }
 
     private void setListeners() {
@@ -65,7 +74,9 @@ public class SetupActivity extends AppCompatActivity {
         cmbRestTime = (Spinner)findViewById(R.id.CmbRestTime);
         btnApplyChanges = (Button)findViewById(R.id.BtnApplyChanges);
 
-
+        lblRoundNumberSelected = (TextView)findViewById(R.id.LblRoundNumberSelected);
+        lblRoundTimeSelected = (TextView)findViewById(R.id.LblRoundTimeSelected);
+        lblRestTimeSelected = (TextView)findViewById(R.id.LblRestTimeSelected);
     }
 
 
@@ -102,6 +113,7 @@ public class SetupActivity extends AppCompatActivity {
                                        int position, long id) {
                 roundAmount = Integer.parseInt((String) parent.getItemAtPosition(position));
 
+                lblRoundNumberSelected.setText("Seleccionado: " + (String) parent.getItemAtPosition(position));
                 // TODO --> PARA DEBUG SOLAMENTE
 //                Context context = getApplicationContext();
 //                String text = String.valueOf(roundAmount);
@@ -122,6 +134,7 @@ public class SetupActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
                                        int position, long id) {
                 secsToCountdown = parseSeconds((String) parent.getItemAtPosition(position));
+                lblRoundTimeSelected.setText("Seleccionado: " + (String) parent.getItemAtPosition(position));
 
                 // TODO --> PARA DEBUG SOLAMENTE
 //                Context context = getApplicationContext();
@@ -143,6 +156,7 @@ public class SetupActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
                                        int position, long id) {
                 secsToRest = parseSeconds((String) parent.getItemAtPosition(position));
+                lblRestTimeSelected.setText("Seleccionado: " + (String) parent.getItemAtPosition(position));
 
                 // TODO --> PARA DEBUG SOLAMENTE
 //                Context context = getApplicationContext();
