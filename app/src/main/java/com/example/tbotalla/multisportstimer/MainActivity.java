@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private int actualRound;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         this.setDefaultValues();
         this.setViewReferences();
         this.setListeners();
-
     }
 
 
@@ -68,13 +66,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void setDefaultValues(){
-        this.secsToCountdown = this.DEFAULT_SECONDS_TO_COUNTDOWN;
-        this.secsToRest = this.DEFAULT_SECONDS_TO_REST;
-        this.roundAmount = this.DEFAULT_ROUND_AMOUNT;
+        this.secsToCountdown = DEFAULT_SECONDS_TO_COUNTDOWN;
+        this.secsToRest = DEFAULT_SECONDS_TO_REST;
+        this.roundAmount = DEFAULT_ROUND_AMOUNT;
         this.actualRound = 0;
-        //this.infoDisplay.setText(R.string.waiting);
     }
+
 
     public void setViewReferences(){
         this.countdownDisplay = (TextView) findViewById(R.id.LblTimeDisplayBox);
@@ -84,7 +83,15 @@ public class MainActivity extends AppCompatActivity {
         this.setUpButton = (Button) findViewById(R.id.BtnSetup);
     }
 
+
     public void setListeners(){
+        setStartButtonListener();
+        setStopButtonListener();
+        setSetUpButtonListener();
+    }
+
+
+    public void setStartButtonListener(){
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 cancelBothTimers();
@@ -92,7 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 startWorkCycle();
             }
         });
+    }
 
+
+    public void setStopButtonListener(){
         stopButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 try {
@@ -105,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+
+    public void setSetUpButtonListener(){
         setUpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 try {
@@ -118,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     // Determina la logica del ciclo de timers incluyendo la cantidad de rounds, tiempo de round,
     // y tiempo de descanso.
     public void startWorkCycle(){
@@ -127,22 +141,18 @@ public class MainActivity extends AppCompatActivity {
             showTimer((secsToCountdown * MILLIS_PER_SECOND));
             this.actualRound++;
 
-            //PRUEBA
+            // TODO --> PROVISORIO PARA DEBUG
             Context context = getApplicationContext();
             CharSequence text = "Round #: "+actualRound;
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+            // TODO --> aca se deberia lanzar un sonido de comienzo
         } else {
-            //setDefaultValues();
             infoDisplay.setText(R.string.waiting);
             resetRoundNumber(); // Reseteo el numero de round para poder comenzar otro ciclo
         }
-
-        //
-
-        //this.cancelBothTimers(); // una vez terminado el ciclo de trabajo, cancelo los timers
     }
 
     public void showSetup(View view) {
@@ -152,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void showTimer(int countdownMillis) {
+        // TODO --> lanzar sonido de inicio de entrenamiento
         this.cancelBothTimers();
         infoDisplay.setText(R.string.work);
         timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
@@ -164,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
+                // TODO --> lanzar sonido de inicio de descanso
                 cancelRestTimer();
                 infoDisplay.setText(R.string.rest);
                 restTimer = new CountDownTimer(secsToRest * MILLIS_PER_SECOND, MILLIS_PER_SECOND) {
@@ -177,8 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-                        startWorkCycle();
-
+                        startWorkCycle(); // inicia nuevamente el ciclo hasta que se cumplan los rounds
                     }
                 }.start();
             }
@@ -207,6 +218,5 @@ public class MainActivity extends AppCompatActivity {
     public void resetRoundNumber(){
         actualRound = 0;
     }
-
 
 }
