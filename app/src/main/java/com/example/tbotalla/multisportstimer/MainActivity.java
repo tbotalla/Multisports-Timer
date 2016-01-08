@@ -1,5 +1,6 @@
 package com.example.tbotalla.multisportstimer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final int DEFAULT_SECONDS_TO_COUNTDOWN = 10;
-    private static final int DEFAULT_SECONDS_TO_REST = 10;
-    private static final int DEFAULT_ROUND_AMOUNT = 5;
+    private static final int DEFAULT_SECONDS_TO_REST = 5;
+    private static final int DEFAULT_ROUND_AMOUNT = 3;
 
     private TextView countdownDisplay;
     private TextView infoDisplay;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private int secsToCountdown;
     private int secsToRest;
     private int roundAmount;
+    private int actualRound;
+
 
 
     @Override
@@ -68,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         this.secsToCountdown = this.DEFAULT_SECONDS_TO_COUNTDOWN;
         this.secsToRest = this.DEFAULT_SECONDS_TO_REST;
         this.roundAmount = this.DEFAULT_ROUND_AMOUNT;
+        this.actualRound = 0;
+        //this.infoDisplay.setText(R.string.waiting);
     }
 
     public void setViewReferences(){
@@ -81,12 +87,7 @@ public class MainActivity extends AppCompatActivity {
     public void setListeners(){
         startButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                try {
-                    startWorkCycle();
-                } catch (NumberFormatException e) {
-                    // method ignores invalid (non-integer) input and waits
-                    // for something it can use
-                }
+                startWorkCycle();
             }
         });
 
@@ -94,9 +95,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 try {
                     infoDisplay.setText(R.string.waiting);
-                    // Necesario chequear que los timers sean no nulos para cancelarlos
-                    if(timer != null) { timer.cancel(); }
-                    if(restTimer != null) { restTimer.cancel(); }
+                    cancelBothTimers();
+                    resetRoundNumber();
                 } catch (NumberFormatException e) {
                     // method ignores invalid (non-integer) input and waits
                     // for something it can use
@@ -117,26 +117,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Determina la logica del ciclo de timers incluyendo la cantidad de rounds, tiempo de round,
-    // y tiempo de descanso
-    private void startWorkCycle(){
-        infoDisplay.setText(R.string.work);
-        // TODO, revisar funcionamiento de esto
-        for(int i = 1 ; i <= this.roundAmount ; i++){
+    // y tiempo de descanso.
+    public void startWorkCycle(){
+        // El metodo es llamado cada vez que termina el timer de descanso, y ahi se chequea el
+        // numero de rounds
+        if(actualRound < roundAmount){
             showTimer((secsToCountdown * MILLIS_PER_SECOND));
-            //wait((secsToCountdown + secsToRest) * MILLIS_PER_SECOND)
+            this.actualRound++;
+
+            //PRUEBA
+            Context context = getApplicationContext();
+            CharSequence text = "Round #: "+actualRound;
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } else {
+            //setDefaultValues();
+            infoDisplay.setText(R.string.waiting);
+            resetRoundNumber(); // Reseteo el numero de round para poder comenzar otro ciclo
         }
+
+        //
 
         //this.cancelBothTimers(); // una vez terminado el ciclo de trabajo, cancelo los timers
     }
 
     public void showSetup(View view) {
-        Intent i = new Intent(this, Ajustes.class );
+        Intent i = new Intent(this, Setup.class );
         startActivity(i);
     }
 
 
-    private void showTimer(int countdownMillis) {
+    public void showTimer(int countdownMillis) {
         this.cancelBothTimers();
+        infoDisplay.setText(R.string.work);
         timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -160,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
+                        startWorkCycle();
 
                     }
                 }.start();
@@ -169,13 +185,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Cancela el timer del round y el del descanso
-    private void cancelBothTimers() {
+    public void cancelBothTimers() {
+        // Necesario chequear que los timers sean no nulos para cancelarlos
         if(timer != null) { timer.cancel(); }
         if(restTimer != null) { restTimer.cancel(); }
     }
 
-    private void cancelRestTimer() {
+
+    public void cancelRestTimer() {
         if(restTimer != null) { restTimer.cancel(); }
+    }
+
+
+    public boolean areTimersCancelled(){
+        return (timer == null && restTimer == null);
+    }
+
+
+    public void resetRoundNumber(){
+        actualRound = 0;
     }
 
 

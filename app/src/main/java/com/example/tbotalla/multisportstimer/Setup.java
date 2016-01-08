@@ -9,7 +9,7 @@ import android.widget.Spinner;
 /**
  * Created by tbotalla on 05/01/16.
  */
-public class Ajustes extends Activity {
+public class Setup extends Activity {
 
     private Spinner cmbRoundNumber;
     private Spinner cmbRoundTime;
