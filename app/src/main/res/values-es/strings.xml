@@ -1,14 +1,21 @@
 <resources>
-    <string name="app_name">Multisports Timer</string>
-
     <string name="hello_world">Hola Mundo!</string>
     <string name="action_settings">Configuracion</string>
     <string name="start">Comenzar</string>
     <string name="stop">Detener</string>
     <string name="threeMin">03:00</string>
-    <string name="waiting">Esperando</string>
+    <string name="waiting">En Espera</string>
     <string name="work">TRABAJO!</string>
     <string name="rest">DESCANSO!</string>
-
+    <string name="config">Configuracion</string>
+    <string name="roundNumber"># Rondas:</string>
+    <string name="roundTime">Tiempo de rondas:</string>
+    <string name="restTime">Tiempo de descanso:</string>
+    <string name="applyChanges">Aplicar cambios</string>
+    <string name="roundsSelected">Rondas seleccionadas:</string>
+    <string name="workTimeSelected">Tiempo de trabajo seleccionado:</string>
+    <string name="restTimeSelected">Tiempo de descanso seleccionado:</string>
+    <string name="back">Atras</string>
+    <string name="seleccionado">Seleccionado: </string>
 
 </resources>
