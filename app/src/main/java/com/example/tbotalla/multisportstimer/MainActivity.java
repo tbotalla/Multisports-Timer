@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         this.setDefaultValues();
         this.setViewReferences();
         this.setListeners();
+        this.getExtras();
     }
 
 

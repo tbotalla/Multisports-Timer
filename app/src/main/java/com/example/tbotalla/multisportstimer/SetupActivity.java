@@ -23,6 +23,7 @@ public class SetupActivity extends AppCompatActivity {
     private Spinner cmbRoundTime;
     private Spinner cmbRestTime;
     private Button  btnApplyChanges;
+    private Button btnBack;
     private TextView lblRoundNumberSelected;
     private TextView lblRoundTimeSelected;
     private TextView lblRestTimeSelected;
@@ -43,15 +44,18 @@ public class SetupActivity extends AppCompatActivity {
         this.setAdapters();
         this.setSpinnersBehavior();
         this.setListeners();
-
     }
 
+
+    // Recibe los parametros de la activity principal
     private void getExtras() {
         secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
         secsToRest = getIntent().getExtras().getInt("secsToRest");
         roundAmount = getIntent().getExtras().getInt("roundAmount");
     }
 
+
+    // Setea los listeners para los botones
     private void setListeners() {
         btnApplyChanges.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -59,11 +63,16 @@ public class SetupActivity extends AppCompatActivity {
                 i.putExtra("secsToCountdown", secsToCountdown);
                 i.putExtra("secsToRest", secsToRest);
                 i.putExtra("roundAmount", roundAmount);
-
                 startActivity(i);
             }
         });
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(SetupActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
 
@@ -73,6 +82,7 @@ public class SetupActivity extends AppCompatActivity {
         cmbRoundTime = (Spinner)findViewById(R.id.CmbRoundTime);
         cmbRestTime = (Spinner)findViewById(R.id.CmbRestTime);
         btnApplyChanges = (Button)findViewById(R.id.BtnApplyChanges);
+        btnBack = (Button)findViewById(R.id.BtnBack);
 
         lblRoundNumberSelected = (TextView)findViewById(R.id.LblRoundNumberSelected);
         lblRoundTimeSelected = (TextView)findViewById(R.id.LblRoundTimeSelected);
@@ -101,12 +111,12 @@ public class SetupActivity extends AppCompatActivity {
                 R.array.rest_times_array, android.R.layout.simple_spinner_item);
         restTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         cmbRestTime.setAdapter(restTimeAdapter);
-
     }
 
 
+    /* Setea el comportamiento al seleccionar las opciones en los distintos spinners y almacenar
+    * dichas selecciones para luego ser usadas */
     private void setSpinnersBehavior(){
-
         // Obtiene el valor seleccionado del spinner de numero de rounds
         cmbRoundNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, android.view.View v,
@@ -118,7 +128,6 @@ public class SetupActivity extends AppCompatActivity {
 //                Context context = getApplicationContext();
 //                String text = String.valueOf(roundAmount);
 //                int duration = Toast.LENGTH_SHORT;
-//
 //                Toast toast = Toast.makeText(context, text, duration);
 //                toast.show();
             }
@@ -131,8 +140,8 @@ public class SetupActivity extends AppCompatActivity {
 
         // Obtiene el valor seleccionado del spinner de round time
         cmbRoundTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, android.view.View v,
-                                       int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, android.view.View v, int position,
+                                       long id) {
                 secsToCountdown = parseSeconds((String) parent.getItemAtPosition(position));
                 lblRoundTimeSelected.setText("Seleccionado: " + (String) parent.getItemAtPosition(position));
 
@@ -140,7 +149,6 @@ public class SetupActivity extends AppCompatActivity {
 //                Context context = getApplicationContext();
 //                String text = String.valueOf(secsToCountdown);
 //                int duration = Toast.LENGTH_SHORT;
-//
 //                Toast toast = Toast.makeText(context, text, duration);
 //                toast.show();
             }
