@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
     <TextView
         android:id="@+id/LblTimeDisplayBox"
         android:layout_width="wrap_content"
@@ -10,9 +10,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:text="@string/threeMin"
+        android:textSize="60sp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
         android:numeric="integer"
-        android:textSize="60dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:elegantTextHeight="true"
+        />
 
     <TextView
         android:id="@+id/LblInfoDisplayBox"
@@ -22,7 +25,8 @@
         android:layout_marginTop="60dp"
         android:text="@string/waiting"
         android:layout_below="@+id/LblTimeDisplayBox"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic"/>
 
     <Button
         android:id="@+id/BtnStart"
@@ -31,7 +35,10 @@
         android:layout_below="@+id/LblInfoDisplayBox"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="41dp"
-        android:text="@string/start" />
+        android:text="@string/start"
+        android:textColor="@color/button_material_dark"
+        android:typeface="monospace" />
+
     <Button
         android:id="@+id/BtnStop"
         android:layout_width="wrap_content"
@@ -39,7 +46,9 @@
         android:layout_below="@+id/BtnStart"
         android:layout_marginTop="41dp"
         android:layout_centerHorizontal="true"
-        android:text="@string/stop" />
+        android:text="@string/stop"
+        android:textColor="@color/button_material_dark"
+        android:typeface="monospace" />
     <Button
         android:id="@+id/BtnSetup"
         android:layout_width="wrap_content"
@@ -47,6 +56,8 @@
         android:layout_below="@+id/BtnStop"
         android:layout_marginTop="41dp"
         android:layout_centerHorizontal="true"
-        android:text="@string/config" />
+        android:text="@string/config"
+        android:textColor="@color/button_material_dark"
+        android:typeface="monospace" />
 
 </RelativeLayout>
