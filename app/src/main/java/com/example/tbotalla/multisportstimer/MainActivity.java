@@ -2,6 +2,10 @@ package com.example.tbotalla.multisportstimer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private Button startButton;
     private Button stopButton;
     private Button setUpButton;
+
+    private SoundPool roundStartSound;
+    private SoundPool roundEndSound;
+    private SoundPool roundAlert;
 
     private int secsToCountdown;
     private int secsToRest;
@@ -100,9 +108,33 @@ public class MainActivity extends AppCompatActivity {
                 resetRoundNumber();
                 getExtras();
                 showInfoToast();
+                playStartSound();
                 startWorkCycle();
             }
         });
+    }
+
+
+    // TODO
+    /* Reproduce el sonido de inicio del round */
+    private void playStartSound() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            AudioAttributes audioAttrib = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            roundStartSound = new SoundPool.Builder().setAudioAttributes(audioAttrib).setMaxStreams(6).build();
+            this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+
+        }
+        else {
+            roundStartSound = new SoundPool(6, AudioManager.STREAM_MUSIC, 0);
+            this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+
+        }
     }
 
     private void getExtras() {
