@@ -1,20 +1,22 @@
 package com.example.tbotalla.multisportstimer;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private Button stopButton;
     private Button setUpButton;
 
+    private SoundManager soundManager;
     private SoundPool roundStartSound;
     private SoundPool roundEndSound;
     private SoundPool roundAlert;
@@ -118,23 +121,10 @@ public class MainActivity extends AppCompatActivity {
     // TODO
     /* Reproduce el sonido de inicio del round */
     private void playStartSound() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            AudioAttributes audioAttrib = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-            roundStartSound = new SoundPool.Builder().setAudioAttributes(audioAttrib).setMaxStreams(6).build();
-            this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-
-        }
-        else {
-            roundStartSound = new SoundPool(6, AudioManager.STREAM_MUSIC, 0);
-            this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-        }
+        soundManager = new SoundManager(getApplicationContext());
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        int ringBell = soundManager.load(R.raw.ringring);
+        soundManager.play(ringBell);
     }
 
     private void getExtras() {

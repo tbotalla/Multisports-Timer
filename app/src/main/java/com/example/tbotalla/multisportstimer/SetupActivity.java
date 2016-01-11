@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.w3c.dom.Text;
+
 
 /**
  * Created by tbotalla on 05/01/16.
@@ -49,9 +49,11 @@ public class SetupActivity extends AppCompatActivity {
 
     // Recibe los parametros de la activity principal
     private void getExtras() {
-        secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
-        secsToRest = getIntent().getExtras().getInt("secsToRest");
-        roundAmount = getIntent().getExtras().getInt("roundAmount");
+        if(getIntent().getExtras() != null){
+            secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
+            secsToRest = getIntent().getExtras().getInt("secsToRest");
+            roundAmount = getIntent().getExtras().getInt("roundAmount");
+        }
     }
 
 
