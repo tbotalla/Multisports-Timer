@@ -33,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private Button setUpButton;
 
     private SoundManager soundManager;
-    private SoundPool roundStartSound;
-    private SoundPool roundEndSound;
-    private SoundPool roundAlert;
+    private int startSound;
+    private int endSound;
+    private int warningSound;
 
     private int secsToCountdown;
     private int secsToRest;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setDefaultValues();
         this.setViewReferences();
+        this.loadSounds();
         this.setListeners();
         this.getExtras();
     }
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -96,10 +96,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void loadSounds() {
+        this.soundManager = new SoundManager(getApplicationContext());
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        this.startSound = soundManager.load(R.raw.ringring);
+        // TODO
+        //this.stopSound = ;
+        //this.warningSound = ;
+    }
+
+
     public void setListeners(){
         setStartButtonListener();
         setStopButtonListener();
         setSetUpButtonListener();
+    }
+
+
+    private void getExtras() {
+        if(getIntent().getExtras() != null){
+            this.secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
+            this.secsToRest = getIntent().getExtras().getInt("secsToRest");
+            this.roundAmount = getIntent().getExtras().getInt("roundAmount");
+        }
     }
 
 
@@ -118,49 +137,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // TODO
-    /* Reproduce el sonido de inicio del round */
-    private void playStartSound() {
-        soundManager = new SoundManager(getApplicationContext());
-        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        int ringBell = soundManager.load(R.raw.ringring);
-        soundManager.play(ringBell);
-    }
-
-    private void getExtras() {
-        if(getIntent().getExtras() != null){
-            this.secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
-            this.secsToRest = getIntent().getExtras().getInt("secsToRest");
-            this.roundAmount = getIntent().getExtras().getInt("roundAmount");
-        }
-    }
-
-    private void showInfoToast() {
-        // TODO --> PROVISORIO PARA DEBUG
-        Context context = getApplicationContext();
-        int duration = Toast.LENGTH_SHORT;
-
-        CharSequence text1 = "Round #: "+actualRound;
-
-        Toast toast1 = Toast.makeText(context, text1, duration);
-        toast1.show();
-
-        CharSequence text2 = "Round time: "+secsToCountdown;
-
-        Toast toast2 = Toast.makeText(context, text2, duration);
-        toast2.show();
-
-        CharSequence text = "Rest time: "+secsToRest;
-
-        Toast toast3 = Toast.makeText(context, text, duration);
-        toast3.show();
-    }
-
-
     // Setea y configura el comportamiento al presionar el boton STOP
     public void setStopButtonListener(){
-        stopButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 try {
                     infoDisplay.setText(R.string.waiting);
                     cancelBothTimers();
@@ -189,6 +169,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /* Reproduce el sonido de inicio del round */
+    private void playStartSound() {
+        soundManager.play(startSound);
+    }
+
+
+    // TODO
+    /* Reproduce el sonido de fin del round */
+    private void playEndSound() {
+        soundManager.play(endSound);
+    }
+
+
+    // TODO
+    /* Reproduce el sonido de aviso de fin del round */
+    private void playWarningSound() {
+        soundManager.play(warningSound);
+    }
+
+
+    private void showInfoToast() {
+        // TODO --> PROVISORIO PARA DEBUG
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_SHORT;
+
+        CharSequence text1 = "Round #: "+actualRound;
+
+        Toast toast1 = Toast.makeText(context, text1, duration);
+        toast1.show();
+
+        CharSequence text2 = "Round time: "+secsToCountdown;
+
+        Toast toast2 = Toast.makeText(context, text2, duration);
+        toast2.show();
+
+        CharSequence text = "Rest time: "+secsToRest;
+
+        Toast toast3 = Toast.makeText(context, text, duration);
+        toast3.show();
+    }
+
+
     // Determina la logica del ciclo de timers incluyendo la cantidad de rounds, tiempo de round,
     // y tiempo de descanso.
     public void startWorkCycle(){
@@ -196,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
         // numero de rounds
         if(actualRound <= roundAmount){
             showTimer((secsToCountdown * MILLIS_PER_SECOND));
-
 
             // TODO --> PROVISORIO PARA DEBUG
             Context context = getApplicationContext();

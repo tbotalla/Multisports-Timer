@@ -23,7 +23,7 @@ public class SoundManager {
 
 
     public int load(int idSound) {
-        return  soundPool.load(pContext, idSound, 1);
+        return soundPool.load(pContext, idSound, 1);
 
     }
 
