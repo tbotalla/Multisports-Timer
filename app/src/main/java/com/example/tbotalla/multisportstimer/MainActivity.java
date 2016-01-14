@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int DEFAULT_SECONDS_TO_COUNTDOWN = 10;
     private static final int DEFAULT_SECONDS_TO_REST = 5;
     private static final int DEFAULT_ROUND_AMOUNT = 3;
+    private static final int DEFAULT_SECONDS_BEFORE_WARNING = 10;
 
     private TextView countdownDisplay;
     private TextView infoDisplay;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private int secsToRest;
     private int roundAmount;
     private int actualRound;
+    private int secsBeforeWarning;
 
 
     @Override
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setDefaultValues();
         this.setViewReferences();
-        this.loadSounds();
+        this.initiateSoundManager();
         this.setListeners();
         this.getExtras();
     }
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         this.secsToRest = DEFAULT_SECONDS_TO_REST;
         this.roundAmount = DEFAULT_ROUND_AMOUNT;
         this.actualRound = 1;
+        this.secsBeforeWarning = DEFAULT_SECONDS_BEFORE_WARNING;
     }
 
 
@@ -96,13 +99,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void loadSounds() {
+    private void initiateSoundManager() {
         this.soundManager = new SoundManager(getApplicationContext());
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        this.startSound = soundManager.load(R.raw.ringring);
-        // TODO
-        //this.stopSound = ;
-        //this.warningSound = ;
     }
 
 
@@ -118,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
             this.secsToCountdown = getIntent().getExtras().getInt("secsToCountdown");
             this.secsToRest = getIntent().getExtras().getInt("secsToRest");
             this.roundAmount = getIntent().getExtras().getInt("roundAmount");
+            // TODO
+            this.secsBeforeWarning = getIntent().getExtras().getInt("secsBeforeWarning");
         }
     }
 
@@ -130,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                 resetRoundNumber();
                 getExtras();
                 showInfoToast();
-                playStartSound();
                 startWorkCycle();
             }
         });
@@ -171,21 +171,24 @@ public class MainActivity extends AppCompatActivity {
 
     /* Reproduce el sonido de inicio del round */
     private void playStartSound() {
-        soundManager.play(startSound);
+        this.startSound = soundManager.load(R.raw.ringring);
+        this.soundManager.play(startSound);
     }
 
 
     // TODO
     /* Reproduce el sonido de fin del round */
     private void playEndSound() {
-        soundManager.play(endSound);
+        //this.startSound = soundManager.load(R.raw.ringring);
+        this.soundManager.play(endSound);
     }
 
 
     // TODO
     /* Reproduce el sonido de aviso de fin del round */
     private void playWarningSound() {
-        soundManager.play(warningSound);
+        this.startSound = soundManager.load(R.raw.ringring);
+        this.soundManager.play(warningSound);
     }
 
 
@@ -208,6 +211,11 @@ public class MainActivity extends AppCompatActivity {
 
         Toast toast3 = Toast.makeText(context, text, duration);
         toast3.show();
+
+        CharSequence text3 = "Secs before warning: "+secsBeforeWarning;
+
+        Toast toast4 = Toast.makeText(context, text, duration);
+        toast4.show();
     }
 
 
@@ -217,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
         // El metodo es llamado cada vez que termina el timer de descanso, y ahi se chequea el
         // numero de rounds
         if(actualRound <= roundAmount){
+            playStartSound();
             showTimer((secsToCountdown * MILLIS_PER_SECOND));
 
             // TODO --> PROVISORIO PARA DEBUG
@@ -226,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
-            // TODO --> aca se deberia lanzar un sonido de comienzo
             this.actualRound++;
         } else {
             infoDisplay.setText(R.string.waiting);
@@ -239,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra("secsToCountdown", secsToCountdown);
         i.putExtra("secsToRest", secsToRest);
         i.putExtra("roundAmount", roundAmount);
+        i.putExtra("secsBeforeWarning",secsBeforeWarning);
 
         startActivity(i);
     }
@@ -251,6 +260,10 @@ public class MainActivity extends AppCompatActivity {
         timer = new CountDownTimer(countdownMillis, MILLIS_PER_SECOND) {
             @Override
             public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished/1000 == secsBeforeWarning){
+                    // TODO
+                    playWarningSound();
+                }
                 //int hours = (int)(millisUntilFinished) / 3600;
                 int minutes = (int)((millisUntilFinished/1000) % 3600) / 60;
                 int seconds = (int)(millisUntilFinished/1000) % 60;
@@ -258,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                // TODO --> lanzar sonido de inicio de descanso
+                playEndSound();
                 cancelRestTimer();
                 infoDisplay.setText(R.string.rest);
                 restTimer = new CountDownTimer(secsToRest * MILLIS_PER_SECOND, MILLIS_PER_SECOND) {
